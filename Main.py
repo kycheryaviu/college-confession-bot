@@ -24,12 +24,8 @@ BOT_USERNAME = "Anon_okotsit_bot"
 BOT_LINK = f"https://t.me/{BOT_USERNAME}"
 CHANNEL_LINK = "https://t.me/okotsitomsk"
 DB_PATH = os.getenv("DB_PATH", "bot.db")
-HEADER = (
-    f'<a href="{CHANNEL_LINK}">ПОДСЛУШКА ОКОТСиТ</a>'
-)
-FOOTER = (
-    f'<a href="{BOT_LINK}">Прислать в подслушку</a>'
-)
+HEADER = f'<a href="{CHANNEL_LINK}">ПОДСЛУШКА ОКОТСиТ</a>'
+FOOTER = f'<a href="{BOT_LINK}">Написать в подслушку</a>'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 if not BOT_TOKEN:
@@ -251,6 +247,7 @@ async def publish_submission(submission):
         await bot.send_message(
             chat_id=CHANNEL_ID,
             text=text,
+            link_preview_options={"is_disabled": True},
         )
         return
     no_caption_types = {
@@ -274,6 +271,7 @@ async def publish_submission(submission):
             chat_id=CHANNEL_ID,
             text=f"{HEADER}\n\n{FOOTER}",
             reply_to_message_id=copied.message_id,
+            link_preview_options={"is_disabled": True},
         )
         return
     caption = publication_caption(submission["caption"])
@@ -283,6 +281,7 @@ async def publish_submission(submission):
         message_id=source_message_id,
         caption=caption,
         parse_mode=ParseMode.HTML,
+        show_caption_above_media=True,
     )
 # ==================================================
 # СООБЩЕНИЯ ПОЛЬЗОВАТЕЛЕЙ
